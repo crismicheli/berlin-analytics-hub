@@ -337,8 +337,10 @@ function updateChart(sector) {
       responsive: true,
       maintainAspectRatio: false,
       plugins: {
+        // legend: {
+        //   position: 'bottom'
+        // }
         legend: {
-          //position: 'bottom'
           display: false 
         }
       }
