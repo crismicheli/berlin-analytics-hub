@@ -1,0 +1,72 @@
+name: Update Berlin Analytics Data
+
+on:
+  schedule:
+    # Run every day at 6 AM UTC (8 AM Berlin time)
+    - cron: '0 6 * * *'
+  workflow_dispatch: # Allow manual trigger
+  
+jobs:
+  update-data:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+      
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+        
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install requests beautifulsoup4
+        
+    - name: Run Berlin Analytics Scraper
+      run: |
+        python scripts/berlin-scraper.py
+        
+    - name: Check for data changes
+      id: verify-changed-files
+      run: |
+        if git diff --quiet data/berlin-analytics-data.json; then
+          echo "No changes detected"
+          echo "changed=false" >> $GITHUB_OUTPUT
+        else
+          echo "Changes detected in data file"
+          echo "changed=true" >> $GITHUB_OUTPUT
+        fi
+        
+    - name: Commit and push changes
+      if: steps.verify-changed-files.outputs.changed == 'true'
+      run: |
+        git config --global user.name 'Berlin Analytics Bot'
+        git config --global user.email 'analytics-bot@users.noreply.github.com'
+        git add data/berlin-analytics-data.json
+        git commit -m "Auto-update Berlin analytics data - $(date +'%Y-%m-%d %H:%M')"
+        git push
+        
+    - name: Create summary report
+      if: steps.verify-changed-files.outputs.changed == 'true'
+      run: |
+        echo "## 📊 Berlin Analytics Update" >> $GITHUB_STEP_SUMMARY
+        echo "**Date:** $(date +'%Y-%m-%d %H:%M UTC')" >> $GITHUB_STEP_SUMMARY
+        echo "**Status:** ✅ Data updated successfully" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "### Updated Sectors:" >> $GITHUB_STEP_SUMMARY
+        python -c "
+        import json
+        with open('data/berlin-analytics-data.json', 'r') as f:
+            data = json.load(f)
+        for sector_key, sector_data in data['sectors'].items():
+            print(f\"- **{sector_data['name']}**: {len(sector_data.get('metrics', {}))} metrics\")
+        " >> $GITHUB_STEP_SUMMARY
+        
+    - name: No changes summary
+      if: steps.verify-changed-files.outputs.changed == 'false'
+      run: |
+        echo "## 📊 Berlin Analytics Check" >> $GITHUB_STEP_SUMMARY
+        echo "**Date:** $(date +'%Y-%m-%d %H:%M UTC')" >> $GITHUB_STEP_SUMMARY
+        echo "**Status:** ℹ️ No data changes detected" >> $GITHUB_STEP_SUMMARY
