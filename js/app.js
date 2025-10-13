@@ -54,7 +54,7 @@ const sectorData = {
       "Precision diagnostics"
     ],
     chartData: {
-      labels: ['Biotech', 'MedTech', 'Pharmaceutical', 'Digital Health'],
+      labels: ['Biotech (280)', 'MedTech (356)', 'Pharma (35)', 'Digital Health (200+)'],
       data: [280, 356, 35, 200],
       type: 'bar'
     }
@@ -115,7 +115,7 @@ const sectorData = {
       "Precision medicine"
     ],
     chartData: {
-      labels: ['2020', '2021', '2022', '2023', '2024'],
+      labels: ['2020 (€25B)', '2021 (€28B)', '2022 (€30B)', '2023 (€31B)', '2024 (€32B)'],
       data: [25, 28, 30, 31, 32],
       type: 'line'
     }
@@ -145,7 +145,7 @@ const sectorData = {
       "Employee participation barriers"
     ],
     chartData: {
-      labels: ['2020', '2021', '2022', '2023', '2024'],
+      labels: ['2020 (€1.8B)', '2021 (€2.0B)', '2022 (€2.1B)', '2023 (€2.3B)', '2024 (€2.4B)'],
       data: [1.8, 2.0, 2.1, 2.3, 2.4],
       type: 'line'
     }
@@ -171,7 +171,7 @@ const sectorData = {
       "Climate adaptation"
     ],
     chartData: {
-      labels: ['Broadband', 'Fiber Optic', '5G Coverage', 'Open Data', 'Traffic Mgmt'],
+      labels: ['Broadband (95.5%)', 'Fiber (40.5%)', '5G (100%)', 'Open Data (100%)', 'Traffic (100%)'],
       data: [95.5, 40.5, 100, 100, 100],
       type: 'bar'
     }
@@ -197,7 +197,7 @@ const sectorData = {
       "Climate adaptation measures"
     ],
     chartData: {
-      labels: ['2030 Target', '2040 Target', '2045 Target'],
+      labels: ['2030 (-70% CO₂)', '2040 (-90% CO₂)', '2045 (Carbon Neutral)'],
       data: [70, 90, 100],
       type: 'bar'
     }
@@ -220,7 +220,7 @@ const sectorData = {
       "Digital test field for urban traffic"
     ],
     chartData: {
-      labels: ['Traffic Data', 'Weather Data', 'Transport Data', 'Environmental'],
+      labels: ['Traffic (100K)', 'Weather (21K)', 'Transport (50K)', 'Environment (30K)'],
       data: [100000, 21000, 50000, 30000],
       type: 'doughnut'
     }
@@ -242,7 +242,7 @@ const sectorData = {
       "Transport, Mobility & Logistics"
     ],
     chartData: {
-      labels: ['ICT/Media', 'Health', 'Energy Tech', 'Optics', 'Transport'],
+      labels: ['ICT/Media (25%)', 'Health (22%)', 'Energy (20%)', 'Optics (18%)', 'Transport (15%)'],
       data: [25, 22, 20, 18, 15],
       type: 'doughnut'
     }
