@@ -327,6 +327,7 @@ function updateChart(sector) {
     data: {
       labels: chartData.labels,
       datasets: [{
+        label: sector.name,
         data: chartData.data,
         backgroundColor: chartColors.slice(0, chartData.data.length),
         borderColor: chartColors.slice(0, chartData.data.length),
