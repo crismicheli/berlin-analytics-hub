@@ -327,7 +327,7 @@ function updateChart(sector) {
     data: {
       labels: chartData.labels,
       datasets: [{
-        ...(chartData.type !== 'doughnut' && chartData.type !== 'pie' ? { label: sector.name },
+        ...(chartData.type !== 'doughnut' && chartData.type !== 'pie' ? { label: sector.name } : {}),
         data: chartData.data,
         backgroundColor: chartColors.slice(0, chartData.data.length),
         borderColor: chartColors.slice(0, chartData.data.length),
