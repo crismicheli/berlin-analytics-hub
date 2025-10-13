@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Berlin Analytics Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 60'%3E%3Crect width='100' height='20' fill='%23000000'/%3E%3Crect y='20' width='100' height='20' fill='%23E31E24'/%3E%3Crect y='40' width='100' height='20' fill='%23FFCC00'/%3E%3C/svg%3E" alt="Berlin Flag" class="flag-icon">
+                <span class="brand-text">Berlin Analytics</span>
+            </div>
+            <ul class="nav-menu" id="nav-menu">
+                <li><a href="#" onclick="showOverview()" class="nav-link active">Overview</a></li>
+                <li class="nav-dropdown">
+                    <a href="#" class="nav-link">Sectors ▾</a>
+                    <div class="dropdown-content">
+                        <a href="#" onclick="showSector('finance')">💰 Finance</a>
+                        <a href="#" onclick="showSector('healthcare')">🏥 Healthcare</a>
+                        <a href="#" onclick="showSector('neuroscience')">🧠 Neuroscience</a>
+                        <a href="#" onclick="showSector('life_sciences')">🔬 Life Sciences</a>
+                        <a href="#" onclick="showSector('startup_ecosystem')">🚀 Startup Ecosystem</a>
+                        <a href="#" onclick="showSector('smart_city')">🏙️ Smart City</a>
+                        <a href="#" onclick="showSector('climate_environment')">🌱 Climate &amp; Environment</a>
+                        <a href="#" onclick="showSector('mobility')">🚌 Mobility</a>
+                        <a href="#" onclick="showSector('innovation')">💡 Innovation</a>
+                    </div>
+                </li>
+            </ul>
+            <div class="search-container">
+                <input type="text" id="searchInput" placeholder="Search metrics..." class="search-input">
+                <button onclick="searchMetrics()" class="search-btn">🔍</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Breadcrumb -->
+    <div class="breadcrumb" id="breadcrumb">
+        <span>Berlin Analytics</span> &gt; <span id="current-section">Overview</span>
+    </div>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Overview Page -->
+        <div id="overview-page" class="page active">
+            <!-- Hero Section -->
+            <section class="hero">
+                <div class="hero-content">
+                    <h1 class="hero-title">Berlin Analytics Dashboard</h1>
+                    <p class="hero-subtitle">Comprehensive insights into Berlin's key sectors and economic performance</p>
+                    <div class="hero-stats">
+                        <div class="stat-card">
+                            <div class="stat-number">3.7M</div>
+                            <div class="stat-label">Population</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number">€193.2B</div>
+                            <div class="stat-label">GDP</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number">7th</div>
+                            <div class="stat-label">Global Startup Ranking</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number">410K</div>
+                            <div class="stat-label">Healthcare Employees</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Sectors Grid -->
+            <section class="sectors-section">
+                <div class="container">
+                    <h2 class="section-title">Berlin's Key Sectors</h2>
+                    <div class="sectors-grid">
+                        <div class="sector-card" onclick="showSector('finance')">
+                            <div class="sector-icon">💰</div>
+                            <h3 class="sector-title">Finance</h3>
+                            <p class="sector-metric">€193.2B GDP</p>
+                            <p class="sector-description">Financial sector and economic performance</p>
+                        </div>
+                        <div class="sector-card" onclick="showSector('healthcare')">
+                            <div class="sector-icon">🏥</div>
+                            <h3 class="sector-title">Healthcare</h3>
+                            <p class="sector-metric">22,500 Companies</p>
+                            <p class="sector-description">Healthcare ecosystem and medical innovation</p>
+                        </div>
+                        <div class="sector-card" onclick="showSector('neuroscience')">
+                            <div class="sector-icon">🧠</div>
+                            <h3 class="sector-title">Neuroscience</h3>
+                            <p class="sector-metric">12+ Research Centers</p>
+                            <p class="sector-description">Neuroscience research and brain health innovation</p>
+                        </div>
+                        <div class="sector-card" onclick="showSector('life_sciences')">
+                            <div class="sector-icon">🔬</div>
+                            <h3 class="sector-title">Life Sciences</h3>
+                            <p class="sector-metric">€32B Revenue</p>
+                            <p class="sector-description">Biotechnology and life sciences sector</p>
+                        </div>
+                        <div class="sector-card" onclick="showSector('startup_ecosystem')">
+                            <div class="sector-icon">🚀</div>
+                            <h3 class="sector-title">Startup Ecosystem</h3>
+                            <p class="sector-metric">7th Globally</p>
+                            <p class="sector-description">Dynamic startup and entrepreneurship landscape</p>
+                        </div>
+                        <div class="sector-card" onclick="showSector('smart_city')">
+                            <div class="sector-icon">🏙️</div>
+                            <h3 class="sector-title">Smart City</h3>
+                            <p class="sector-metric">100% 5G Coverage</p>
+                            <p class="sector-description">Digital transformation and smart city initiatives</p>
+                        </div>
+                        <div class="sector-card" onclick="showSector('climate_environment')">
+                            <div class="sector-icon">🌱</div>
+                            <h3 class="sector-title">Climate &amp; Environment</h3>
+                            <p class="sector-metric">2045 Carbon Neutral</p>
+                            <p class="sector-description">Climate action and environmental sustainability</p>
+                        </div>
+                        <div class="sector-card" onclick="showSector('mobility')">
+                            <div class="sector-icon">🚌</div>
+                            <h3 class="sector-title">Mobility</h3>
+                            <p class="sector-metric">100K+ Daily Readings</p>
+                            <p class="sector-description">Transportation and mobility analytics</p>
+                        </div>
+                        <div class="sector-card" onclick="showSector('innovation')">
+                            <div class="sector-icon">💡</div>
+                            <h3 class="sector-title">Innovation</h3>
+                            <p class="sector-metric">5 Main Clusters</p>
+                            <p class="sector-description">Innovation ecosystem and research landscape</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Sector Pages -->
+        <div id="sector-page" class="page">
+            <div class="container">
+                <div class="sector-header">
+                    <div class="sector-back">
+                        <button onclick="showOverview()" class="back-btn">← Back to Overview</button>
+                    </div>
+                    <div class="sector-info">
+                        <div class="sector-icon-large" id="sector-icon">💰</div>
+                        <div>
+                            <h1 id="sector-title">Finance</h1>
+                            <p id="sector-description">Berlin's financial sector and economic performance</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Key Metrics -->
+                <div class="metrics-section">
+                    <h2 class="section-title">Key Metrics</h2>
+                    <div class="metrics-grid" id="metrics-grid">
+                        <!-- Metrics will be dynamically populated -->
+                    </div>
+                </div>
+
+                <!-- Charts Section -->
+                <div class="charts-section">
+                    <div class="chart-container">
+                        <h3 class="chart-title" id="chart-title">Sector Overview</h3>
+                        <div class="chart-wrapper">
+                            <canvas id="sectorChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Institutions/Details -->
+                <div class="details-section">
+                    <h2 class="section-title">Key Institutions &amp; Details</h2>
+                    <div class="details-content" id="details-content">
+                        <!-- Details will be dynamically populated -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Berlin Analytics Dashboard. Data sourced from official Berlin government statistics and reports.</p>
+        </div>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>
