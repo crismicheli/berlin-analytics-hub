@@ -560,7 +560,7 @@ document.addEventListener('DOMContentLoaded', function() {
   showOverview();
 
   // Footer last update timestamp logic
-  fetch('last-updated.json')
+  fetch('data/last-updated.json')
       .then(response => response.json())
       .then(data => {
           document.getElementById('last-update').textContent =
