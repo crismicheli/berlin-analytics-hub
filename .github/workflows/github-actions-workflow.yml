@@ -27,6 +27,11 @@ jobs:
         python -m pip install --upgrade pip
         pip install requests beautifulsoup4
 
+    - name: Set Git author credentials
+      run: |
+        git config --global user.name "Berlin Analytics Bot"
+        git config --global user.email analytics-bot@users.noreply.github.com
+    
     - name: Write last update timestamp
       run: |
         echo "{\"lastUpdated\": \"$(date -u +'%Y-%m-%d %H:%M:%S') UTC\"}" > data/last-updated.json
@@ -52,8 +57,6 @@ jobs:
     - name: Commit and push changes
       if: steps.verify-changed-files.outputs.changed == 'true'
       run: |
-        git config --global user.name 'Berlin Analytics Bot'
-        git config --global user.email 'analytics-bot@users.noreply.github.com'
         git add data/berlin-analytics-data.json
         git commit -m "Auto-update Berlin analytics data - $(date +'%Y-%m-%d %H:%M')"
         git push
