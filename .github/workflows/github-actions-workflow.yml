@@ -1,3 +1,4 @@
+permissions: contents: write
 name: Update Berlin Analytics Data
 
 on:
