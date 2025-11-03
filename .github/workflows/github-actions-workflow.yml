@@ -1,5 +1,7 @@
-permissions: contents: write
 name: Update Berlin Analytics Data
+
+permissions: 
+  contents: write
 
 on:
   schedule:
