@@ -540,13 +540,34 @@ function searchMetrics() {
 }
 
 // Allow search on Enter key
-document.addEventListener('DOMContentLoaded', function() {
-  document.getElementById('searchInput').addEventListener('keypress', function(e) {
-    if (e.key === 'Enter') {
-      searchMetrics();
-    }
-  });
+// document.addEventListener('DOMContentLoaded', function() {
+//   document.getElementById('searchInput').addEventListener('keypress', function(e) {
+//     if (e.key === 'Enter') {
+//       searchMetrics();
+//     }
+//   });
   
+//   // Show overview by default
+//   showOverview();
+
+document.addEventListener('DOMContentLoaded', function() {
+  // Search bar Enter handling
+  document.getElementById('searchInput').addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') searchMetrics();
+  });
+
   // Show overview by default
   showOverview();
+
+  // Footer last update timestamp logic
+  fetch('last-updated.json')
+      .then(response => response.json())
+      .then(data => {
+          document.getElementById('last-update').textContent =
+              `Daily updates, last update: ${data.lastUpdated}`;
+      })
+      .catch(() => {
+          document.getElementById('last-update').textContent =
+              "Daily updates, last update: unknown";
+      });
 });
