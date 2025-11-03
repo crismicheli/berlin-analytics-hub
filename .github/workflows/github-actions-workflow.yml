@@ -70,3 +70,10 @@ jobs:
         echo "## 📊 Berlin Analytics Check" >> $GITHUB_STEP_SUMMARY
         echo "**Date:** $(date +'%Y-%m-%d %H:%M UTC')" >> $GITHUB_STEP_SUMMARY
         echo "**Status:** ℹ️ No data changes detected" >> $GITHUB_STEP_SUMMARY
+
+    - name: Write last update timestamp
+      run: |
+        echo "{\"lastUpdated\": \"$(date -u +'%Y-%m-%d %H:%M:%S') UTC\"}" > data/last-updated.json
+        git add data/last-updated.json
+        git commit -m "Update last update timestamp [skip ci]" || echo "No changes to commit"
+        git push
