@@ -115,7 +115,7 @@ class BerlinHighlightsScraper:
         print("✅ Scraping completed!")
         return self.data
 
-    def save_json(self, filename="data/berlin-highlights.json"):
+    def save_json(self, filename="data/berlin-highlights-data.json"):
         os.makedirs(os.path.dirname(filename), exist_ok=True)
         with open(filename, "w", encoding="utf-8") as f:
             json.dump(self.data, f, indent=2, ensure_ascii=False)
