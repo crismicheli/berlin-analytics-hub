@@ -1,0 +1,110 @@
+import requests
+from bs4 import BeautifulSoup
+import json
+import re
+from datetime import datetime
+import os
+import time
+
+class BerlinHighlightsScraper:
+    def __init__(self):
+        self.headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)'}
+        self.data = {
+            "last_updated": datetime.now().isoformat(),
+            "highlights": {},
+            "sources": []
+        }
+        self.sources = {
+            "population": "https://fictitious-berlin-population.org/2024",
+            "gdp": "https://www.statistik-berlin-brandenburg.de/p-i-1-j",
+            "startup_ranking": "https://fictitious-startuprank-berlin.com/2024",
+            "healthcare_employees": "https://fictitious-berlin-healthcare.com/employees-2024"
+        }
+
+    def safe_request(self, url, max_retries=3):
+        for attempt in range(max_retries):
+            try:
+                response = requests.get(url, headers=self.headers, timeout=15)
+                if response.status_code == 200:
+                    return response
+                print(f"HTTP {response.status_code} for {url}")
+            except Exception as e:
+                print(f"Request failed (attempt {attempt + 1}): {e}")
+            time.sleep(2)
+        return None
+
+    def scrape_population(self):
+        url = self.sources["population"]
+        resp = self.safe_request(url)
+        value = None
+        if resp:
+            self.data["sources"].append(url)
+            # Example pattern: Berlin Population: 3,788,000 (2024)
+            m = re.search(r"Population:\s*([\d.,]+)", resp.text)
+            if m:
+                value = m.group(1).replace(',', '')
+        return value
+
+    def scrape_gdp(self):
+        url = self.sources["gdp"]
+        resp = self.safe_request(url)
+        value = None
+        if resp:
+            self.data["sources"].append(url)
+            soup = BeautifulSoup(resp.text, "html.parser")
+            text = soup.get_text()
+            m = re.search(r"2024[^\\d]+([\d,.]+)\s+Milliarden\s+EUR", text)
+            if m:
+                value = m.group(1).replace(",", ".") + " billion"
+        return value
+
+    def scrape_startup_ranking(self):
+        url = self.sources["startup_ranking"]
+        resp = self.safe_request(url)
+        value = None
+        if resp:
+            self.data["sources"].append(url)
+            # Example: Global Startup Ranking: 7th
+            m = re.search(r"Startup Ranking:?\s*([\d]{1,2}(?:st|nd|rd|th)?)", resp.text)
+            if m:
+                value = m.group(1)
+        return value
+
+    def scrape_healthcare_employees(self):
+        url = self.sources["healthcare_employees"]
+        resp = self.safe_request(url)
+        value = None
+        if resp:
+            self.data["sources"].append(url)
+            # Example: Healthcare Employees: 412,000
+            m = re.search(r"Healthcare Employees:?\s*([\d.,]+)", resp.text)
+            if m:
+                value = m.group(1).replace(',', '')
+        return value
+
+    def scrape_all_highlights(self):
+        print("🔍 Scraping Berlin Highlights...")
+        highlights = {}
+        pop = self.scrape_population()
+        if pop: highlights["population"] = pop
+        gdp = self.scrape_gdp()
+        if gdp: highlights["gdp_2024"] = gdp
+        starank = self.scrape_startup_ranking()
+        if starank: highlights["startup_ranking"] = starank
+        helse = self.scrape_healthcare_employees()
+        if helse: highlights["healthcare_employees"] = helse
+        self.data["highlights"] = highlights
+        print("✅ Scraping completed!")
+        return self.data
+
+    def save_json(self, filename="data/berlin-highlights.json"):
+        os.makedirs(os.path.dirname(filename), exist_ok=True)
+        with open(filename, "w", encoding="utf-8") as f:
+            json.dump(self.data, f, indent=2, ensure_ascii=False)
+        print(f"💾 Data saved to: {filename}")
+        return filename
+
+if __name__ == "__main__":
+    scraper = BerlinHighlightsScraper()
+    scraper.scrape_all_highlights()
+    scraper.save_json()
