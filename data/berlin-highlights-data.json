@@ -1,5 +1,5 @@
 {
-  "last_updated": "2025-11-15T11:29:04.733036",
+  "last_updated": "2025-11-15T12:10:25.143962",
   "highlights": {
     "population": {
       "value": "3.7 million",
@@ -7,7 +7,7 @@
     },
     "gdp_2024": {
       "value": "207.1 billion",
-      "source_type": "default"
+      "source_type": "live"
     },
     "startup_ranking": {
       "value": "7th",
@@ -21,5 +21,6 @@
   "sources": [
     "https://www.statistik-berlin-brandenburg.de/a-i-3-j",
     "https://www.statistik-berlin-brandenburg.de/p-i-1-j"
-  ]
+  ],
+  "sectors": {}
 }
