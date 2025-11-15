@@ -12,7 +12,8 @@ class BerlinHighlightsScraper:
         self.data = {
             "last_updated": datetime.now().isoformat(),
             "highlights": {},
-            "sources": []
+            "sources": [],
+            "sectors": {}
         }
         self.sources = {
             "population": "https://www.statistik-berlin-brandenburg.de/a-i-3-j",
@@ -62,7 +63,8 @@ class BerlinHighlightsScraper:
             self.data["sources"].append(url)
             soup = BeautifulSoup(resp.text, "html.parser")
             text = soup.get_text()
-            m = re.search(r"2024[^\\d]+([\d,.]+)\s+Milliarden\s+EUR", text)
+            # More tolerant: match billions in the context of "2024" or "Milliarden EUR"
+            m = re.search(r"2024.*?([\d.,]+)\s*Milliarden\s*EUR", text, re.DOTALL)
             if m:
                 value = f"{m.group(1).replace(',', '.')} billion"
                 source_type = "live"
