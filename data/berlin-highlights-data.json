@@ -1,5 +1,5 @@
 {
-  "last_updated": "2025-11-15T12:10:25.143962",
+  "last_updated": "2025-11-15T12:22:29.052820",
   "highlights": {
     "population": {
       "value": "3.7 million",
@@ -14,13 +14,14 @@
       "source_type": "default"
     },
     "healthcare_employees": {
-      "value": "412000",
-      "source_type": "default"
+      "value": "428K",
+      "source_type": "live"
     }
   },
   "sources": [
     "https://www.statistik-berlin-brandenburg.de/a-i-3-j",
-    "https://www.statistik-berlin-brandenburg.de/p-i-1-j"
+    "https://www.statistik-berlin-brandenburg.de/p-i-1-j",
+    "https://www.statistik-berlin-brandenburg.de/059-2025"
   ],
   "sectors": {}
 }
