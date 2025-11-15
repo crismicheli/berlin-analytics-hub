@@ -47,7 +47,7 @@ jobs:
     - name: Check for data changes
       id: verify-changed-files
       run: |
-        if git diff --quiet data/berlin-analytics-data.json; then
+        if git diff --quiet data/berlin-highlights-data.json.json; then
           echo "No changes detected"
           echo "changed=false" >> $GITHUB_OUTPUT
         else
@@ -58,7 +58,7 @@ jobs:
     - name: Commit and push changes
       if: steps.verify-changed-files.outputs.changed == 'true'
       run: |
-        git add data/berlin-highlights.json
+        git add data/berlin-highlights-data.json
         git commit -m "Auto-update Berlin analytics data - $(date +'%Y-%m-%d %H:%M')"
         git push
         
@@ -72,7 +72,7 @@ jobs:
         echo "### Updated Sectors:" >> $GITHUB_STEP_SUMMARY
         python -c "
         import json
-        with open('data/berlin-analytics-data.json', 'r') as f:
+        with open('data/berlin-highlights-data.json', 'r') as f:
             data = json.load(f)
         for sector_key, sector_data in data['sectors'].items():
             print(f\"- **{sector_data['name']}**: {len(sector_data.get('metrics', {}))} metrics\")
