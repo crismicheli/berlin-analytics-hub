@@ -40,8 +40,8 @@ class BerlinHighlightsScraper:
         source_type = "default"
         if resp:
             self.data["sources"].append(url)
-            # Try to find 2024 number and Menschen
-            matches = re.findall(r"2024[^\d]*([\d.]+)\s+Menschen", resp.text)
+            # Match a number like 3.685.265 Menschen, preferring 2024
+            matches = re.findall(r"2024[^\d]{0,20}([\d.]+)\s+Menschen", resp.text)
             if not matches:
                 matches = re.findall(r"([\d.]{7,})\s+Menschen", resp.text)
             if matches:
