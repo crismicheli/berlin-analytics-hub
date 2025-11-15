@@ -37,50 +37,68 @@ class BerlinHighlightsScraper:
         url = self.sources["population"]
         resp = self.safe_request(url)
         value = None
+        source_type = "default"
         if resp:
             self.data["sources"].append(url)
-            # Example pattern: Berlin Population: 3,788,000 (2024)
-            m = re.search(r"Population:\s*([\d.,]+)", resp.text)
-            if m:
-                value = m.group(1).replace(',', '')
-        return value
+            # Try to find 2024 number and Menschen
+            matches = re.findall(r"2024[^\d]*([\d.]+)\s+Menschen", resp.text)
+            if not matches:
+                matches = re.findall(r"([\d.]{7,})\s+Menschen", resp.text)
+            if matches:
+                num = int(matches[0].replace(".", ""))
+                millions = round(num / 1_000_000, 1)
+                value = f"{millions} million"
+                source_type = "live"
+        if not value:
+            value = "3.7 million"
+        return {"value": value, "source_type": source_type}
 
     def scrape_gdp(self):
         url = self.sources["gdp"]
         resp = self.safe_request(url)
         value = None
+        source_type = "default"
         if resp:
             self.data["sources"].append(url)
             soup = BeautifulSoup(resp.text, "html.parser")
             text = soup.get_text()
             m = re.search(r"2024[^\\d]+([\d,.]+)\s+Milliarden\s+EUR", text)
             if m:
-                value = m.group(1).replace(",", ".") + " billion"
-        return value
+                value = f"{m.group(1).replace(',', '.')} billion"
+                source_type = "live"
+        if not value:
+            value = "207.1 billion"
+        return {"value": value, "source_type": source_type}
 
     def scrape_startup_ranking(self):
         url = self.sources["startup_ranking"]
         resp = self.safe_request(url)
         value = None
+        source_type = "default"
         if resp:
             self.data["sources"].append(url)
-            # Example: Global Startup Ranking: 7th
             m = re.search(r"Startup Ranking:?\s*([\d]{1,2}(?:st|nd|rd|th)?)", resp.text)
             if m:
                 value = m.group(1)
-        return value
+                source_type = "live"
+        if not value:
+            value = "7th"
+        return {"value": value, "source_type": source_type}
 
     def scrape_healthcare_employees(self):
         url = self.sources["healthcare_employees"]
         resp = self.safe_request(url)
         value = None
+        source_type = "default"
         if resp:
             self.data["sources"].append(url)
-            # Example: Healthcare Employees: 412,000
             m = re.search(r"Healthcare Employees:?\s*([\d.,]+)", resp.text)
             if m:
                 value = m.group(1).replace(',', '')
-        return value
+                source_type = "live"
+        if not value:
+            value = "412000"
+        return {"value": value, "source_type": source_type}
 
     def scrape_all_highlights(self):
         print("🔍 Scraping Berlin Highlights...")
