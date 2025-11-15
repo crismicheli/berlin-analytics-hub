@@ -19,7 +19,7 @@ class BerlinHighlightsScraper:
             "population": "https://www.statistik-berlin-brandenburg.de/a-i-3-j",
             "gdp": "https://www.statistik-berlin-brandenburg.de/p-i-1-j",
             "startup_ranking": "https://fictitious-startuprank-berlin.com/2024",
-            "healthcare_employees": "https://fictitious-berlin-healthcare.com/employees-2024"
+            "healthcare_employees": "https://www.statistik-berlin-brandenburg.de/059-2025"
         }
 
     def safe_request(self, url, max_retries=3):
@@ -94,12 +94,17 @@ class BerlinHighlightsScraper:
         source_type = "default"
         if resp:
             self.data["sources"].append(url)
-            m = re.search(r"Healthcare Employees:?\s*([\d.,]+)", resp.text)
-            if m:
-                value = m.group(1).replace(',', '')
+            # Try to find (2023/2024...)[some characters]number Menschen
+            matches = re.findall(r"202[34][^\d]{0,20}([\d.]{6,})\s+Menschen", resp.text)
+            if not matches:
+                # fallback: just any large number finished by Menschen
+                matches = re.findall(r"([\d.]{6,})\s+Menschen", resp.text)
+            if matches:
+                num = int(matches[0].replace(".", ""))
+                value = f"{round(num/1000):d}K"
                 source_type = "live"
         if not value:
-            value = "412000"
+            value = "428K"
         return {"value": value, "source_type": source_type}
 
     def scrape_all_highlights(self):
