@@ -15,7 +15,7 @@ class BerlinHighlightsScraper:
             "sources": []
         }
         self.sources = {
-            "population": "https://fictitious-berlin-population.org/2024",
+            "population": "https://www.statistik-berlin-brandenburg.de/a-i-3-j",
             "gdp": "https://www.statistik-berlin-brandenburg.de/p-i-1-j",
             "startup_ranking": "https://fictitious-startuprank-berlin.com/2024",
             "healthcare_employees": "https://fictitious-berlin-healthcare.com/employees-2024"
