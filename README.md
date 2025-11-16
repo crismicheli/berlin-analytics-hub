@@ -72,4 +72,4 @@ https://www.investitionsbank.de/ibk/eng/
 Berlin Statistical Office:
 https://www.statistik-berlin-brandenburg.de/
 
-** All sources listed are either open data, official institutional data pages, or public-sector dashboards. **
+**All sources listed are either open data, official institutional data pages, or public-sector dashboards.**
