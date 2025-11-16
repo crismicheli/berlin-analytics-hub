@@ -280,6 +280,14 @@ async function loadAnalyticsData() {
           card.querySelector('.sector-stat').textContent = `${gdpUi} GDP`;
         }
       });
+      // added to force GDP rendering on html page and subpage
+      showOverview();
+      if (
+        document.getElementById('current-section') &&
+        document.getElementById('current-section').textContent === 'Finance'
+      ) {
+        showSector("finance");
+      }
     }
   } catch (err) {
     console.error("Failed to load berlin-highlights-data.json", err);
