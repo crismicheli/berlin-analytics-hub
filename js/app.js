@@ -355,7 +355,25 @@ function populateDetails(sector) {
 }
 
 window.addEventListener('DOMContentLoaded', () => {
-  Promise.all([loadAnalyticsData(), loadLastUpdated()]).then(() => {
-    showOverview();
-  });
+  loadLastUpdated()
+    .catch(err => {
+      console.error("Failed to fetch last updated date:", err);
+    });
+
+  loadAnalyticsData()
+    .then(() => {
+      showOverview();
+      if (
+        document.getElementById('current-section') &&
+        document.getElementById('current-section').textContent === 'Finance'
+      ) {
+        showSector("finance");
+      }
+    })
+    .catch(err => {
+      console.error("Failed to fetch analytics data:", err);
+      // Optionally render fallback UI here
+      showOverview(); // Still try to build the basic overview even on error
+    });
 });
+
