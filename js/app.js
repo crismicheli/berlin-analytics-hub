@@ -1,13 +1,10 @@
-// Berlin Analytics Dashboard JavaScript
-
-// Sector data (GDP will be dynamically set after JSON fetch)
 const sectorData = {
   finance: {
     name: "Finance",
     icon: "💰",
     description: "Berlin's financial sector and economic performance",
     metrics: {
-      "GDP 2024": "LOADING...", // dynamically set below
+      "GDP 2024": "LOADING...",
       "GDP Growth 2023": "1.6%",
       "Debt Rating": "AAA",
       "Economic Liability Burden": "65.3%",
@@ -249,10 +246,8 @@ const sectorData = {
   }
 };
 
-// Current state
 let currentChart = null;
 
-// GDP formatter for display
 function formatGDP(value) {
   if (typeof value === "string" && value.toLowerCase().includes('billion')) {
     let num = value.replace(/[^0-9.,]/g, '').replace(',', '.');
@@ -261,55 +256,52 @@ function formatGDP(value) {
   return value;
 }
 
-// GDP loader: Fetch from JSON and update state/DOM
-async function loadDynamicData() {
+async function loadAnalyticsData() {
   try {
-    const response = await fetch('berlin-highlights-data.json');
-    const data = await response.json();
-
-    if (
-      data.highlights &&
-      data.highlights.gdp_2024 &&
-      data.highlights.gdp_2024.value
-    ) {
-      const gdpBillions = data.highlights.gdp_2024.value;
-      sectorData.finance.metrics["GDP 2024"] = `€${gdpBillions}`;
+    const resp = await fetch('data/berlin-highlights-data.json');
+    const data = await resp.json();
+    if (data.highlights && data.highlights.gdp_2024 && data.highlights.gdp_2024.value) {
+      const gdpStr = data.highlights.gdp_2024.value;
+      const gdpUi = formatGDP(gdpStr);
+      sectorData.finance.metrics["GDP 2024"] = `€${gdpStr}`;
+      document.querySelectorAll('.stat-value').forEach(el => {
+        if (
+          el.nextElementSibling &&
+          el.nextElementSibling.textContent.trim() === "GDP"
+        ) {
+          el.textContent = gdpUi;
+        }
+      });
+      document.querySelectorAll('.sector-card').forEach(card => {
+        if (
+          card.innerHTML.includes('Finance') &&
+          card.querySelector('.sector-stat')
+        ) {
+          card.querySelector('.sector-stat').textContent = `${gdpUi} GDP`;
+        }
+      });
     }
-
-    // Update GDP in overview using DOM selectors
-    const gdpShort = formatGDP(data.highlights.gdp_2024.value);
-
-    document.querySelectorAll('.stat-value').forEach(el => {
-      if (
-        el.nextElementSibling &&
-        el.nextElementSibling.textContent.trim() === "GDP"
-      ) {
-        el.textContent = gdpShort;
-      }
-    });
-
-    document.querySelectorAll('.sector-card').forEach(card => {
-      if (
-        card.innerHTML.includes('Finance') &&
-        card.querySelector('.sector-stat')
-      ) {
-        card.querySelector('.sector-stat').textContent = `${gdpShort} GDP`;
-      }
-    });
-
-    // If your page updates metrics by rerendering (see below), GDP will be correct
-
   } catch (err) {
-    console.error("[GDP loader] Failed to fetch/update GDP", err);
+    console.error("Failed to load berlin-highlights-data.json", err);
   }
 }
 
-// Navigation functions (unchanged)
+async function loadLastUpdated() {
+  try {
+    const resp = await fetch('data/last-updated.json');
+    const data = await resp.json();
+    if (data.lastUpdated && document.getElementById('last-updated')) {
+      document.getElementById('last-updated').textContent = data.lastUpdated;
+    }
+  } catch (err) {
+    console.error("Failed to load last-updated.json", err);
+  }
+}
+
 function showOverview() {
   document.getElementById('overview-page').classList.add('active');
   document.getElementById('sector-page').classList.remove('active');
   document.getElementById('current-section').textContent = 'Overview';
-  // Update nav links
   document.querySelectorAll('.nav-link').forEach(link => {
     link.classList.remove('active');
   });
@@ -319,21 +311,15 @@ function showOverview() {
 function showSector(sectorKey) {
   const sector = sectorData[sectorKey];
   if (!sector) return;
-  // Hide overview, show sector page
   document.getElementById('overview-page').classList.remove('active');
   document.getElementById('sector-page').classList.add('active');
   document.getElementById('current-section').textContent = sector.name;
-  // Update sector page content
   document.getElementById('sector-icon').textContent = sector.icon;
   document.getElementById('sector-title').textContent = sector.name;
   document.getElementById('sector-description').textContent = sector.description;
-  // Update metrics
   populateMetrics(sector.metrics);
-  // Update chart
   updateChart(sector);
-  // Update details
   populateDetails(sector);
-  // Update nav
   document.querySelectorAll('.nav-link').forEach(link => {
     link.classList.remove('active');
   });
@@ -353,16 +339,15 @@ function populateMetrics(metrics) {
 }
 
 function updateChart(sector) {
-  // Implementation depends on charting library; not shown for brevity
+  // Add chart rendering logic for your chosen charting library if needed
 }
 
 function populateDetails(sector) {
-  // Implementation depends on page structure; not shown for brevity
+  // Add sector-specific details if needed
 }
 
-// Entry point
 window.addEventListener('DOMContentLoaded', () => {
-  loadDynamicData();
-  showOverview();
-  // You may have other initialization...
+  Promise.all([loadAnalyticsData(), loadLastUpdated()]).then(() => {
+    showOverview();
+  });
 });
