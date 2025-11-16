@@ -1162,7 +1162,7 @@ body {
   margin-bottom: var(--space-8);
 }
 
-.sector-stat.finance {
+.sector-stat {
   font-size: var(--font-size-lg);
   font-weight: var(--font-weight-semibold);
   color: var(--berlin-red);
