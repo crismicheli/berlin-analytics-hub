@@ -1,2 +1,3 @@
 Make file parametric by adding scraped data from the folder /data
-See examples [here](https://www.perplexity.ai/search/i-want-to-setup-a-site-that-sh-6_WkZdusQnaYBW3j._IcfA#:~:text=make%20the%20app.js%20parametric%20in%20the%20numbers%20shown%20at%20the%20beginning%20in%20the%20landing%20page%20(e.g.%20population%2C%20GDP%2C%20...).%20How%20do%20i%20setup%20a%20github%20action%20to%20automatically%20retrieve%20these%20numbers%20every%20week%3F%20Work%20using%20github%20actions%2C%20the%20berlin%2Dscraper.py%20scripts%20and%20the%20app.js)
+
+See examples [here](https://www.perplexity.ai/search/i-want-to-setup-a-site-that-sh-6_WkZdusQnaYBW3j._IcfA#:~:text=make%20the%20app.js%20parametric)
