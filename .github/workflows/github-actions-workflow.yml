@@ -47,7 +47,7 @@ jobs:
     - name: Check for data changes
       id: verify-changed-files
       run: |
-        if git diff --quiet data/berlin-highlights-data.json.json; then
+        if git diff --quiet data/berlin-highlights-data.json; then
           echo "No changes detected"
           echo "changed=false" >> $GITHUB_OUTPUT
         else
