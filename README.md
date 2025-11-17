@@ -13,6 +13,9 @@ The web scraper file is called berlin-scraper.py in the scripts folder
 ## Sources: ##
 
 ### Core Berlin Open Data and City Resources ###
+Official Statistics for Berlin and Brandenburg
+https://www.statistik-berlin-brandenburg.de/
+
 Berlin Open Data Portal (official):
 https://daten.berlin.de/
 
