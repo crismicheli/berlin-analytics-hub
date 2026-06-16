@@ -1,13 +1,13 @@
 {
-  "last_updated": "2026-06-15T12:18:58.017584",
+  "last_updated": "2026-06-16T11:13:43.616905",
   "highlights": {
     "population": {
       "value": "3.7 million",
-      "source_type": "live"
+      "source_type": "default"
     },
     "gdp_2024": {
-      "value": "218.3 billion",
-      "source_type": "live"
+      "value": "207.1 billion",
+      "source_type": "default"
     },
     "startup_ranking": {
       "value": "7th",
@@ -15,13 +15,9 @@
     },
     "healthcare_employees": {
       "value": "428K",
-      "source_type": "live"
+      "source_type": "default"
     }
   },
-  "sources": [
-    "https://www.statistik-berlin-brandenburg.de/a-i-3-j",
-    "https://www.statistik-berlin-brandenburg.de/p-i-1-j",
-    "https://www.statistik-berlin-brandenburg.de/059-2025"
-  ],
+  "sources": [],
   "sectors": {}
 }
